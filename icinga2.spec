@@ -164,8 +164,11 @@ Icinga 2 is a general-purpose network monitoring application.
 This subpackage provides the binaries for Icinga 2 Core.
 
 %package common
-Summary:      Common Icinga 2 configuration
-Group:        System/Monitoring
+Summary:        Common Icinga 2 configuration
+Group:          System/Monitoring
+
+Requires:       icinga2-templates
+
 %if (0%{?amzn} || 0%{?fedora} || 0%{?rhel})
 Requires(pre):  shadow-utils
 Requires(post): shadow-utils
@@ -603,8 +606,6 @@ fi
 %dir %{_libdir}/%{name}/sbin
 %{_libdir}/%{name}/sbin/%{name}
 %{plugindir}/check_nscp_api
-%{_datadir}/%{name}
-%exclude %{_datadir}/%{name}/include
 %{_mandir}/man8/%{name}.8.gz
 
 %files libs
@@ -653,6 +654,7 @@ fi
 %dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/prepare-dirs
 %{_libexecdir}/%{name}/safe-reload
+%dir %{_datadir}/%{name}
 %attr(0750,%{icinga_user},%{icingacmd_group}) %{_localstatedir}/cache/%{name}
 %attr(0750,%{icinga_user},%{icingacmd_group}) %dir %{_localstatedir}/log/%{name}
 %attr(0750,%{icinga_user},%{icinga_group}) %dir %{_localstatedir}/log/%{name}/crash
@@ -664,8 +666,6 @@ fi
 %attr(0750,%{icinga_user},%{icinga_group}) %dir %{_localstatedir}/spool/%{name}
 %attr(0770,%{icinga_user},%{icinga_group}) %dir %{_localstatedir}/spool/%{name}/perfdata
 %attr(0750,%{icinga_user},%{icinga_group}) %dir %{_localstatedir}/spool/%{name}/tmp
-%attr(0750,%{icinga_user},%{icinga_group}) %dir %{_datadir}/%{name}/include
-%{_datadir}/%{name}/include
 
 %files doc
 %defattr(-,root,root,-)
