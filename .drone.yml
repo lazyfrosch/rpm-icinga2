@@ -1,0 +1,33 @@
+matrix:
+  include:
+    - DOCKER_IMAGE: registry.icinga.com/build-docker/centos/7:x86_64
+      STACK_REPO: centos
+      UPLOAD_RELEASE: 7
+
+pipeline:
+  build:
+    image: '${DOCKER_IMAGE}'
+    environment:
+      ICINGA_BUILD_TYPE: snapshot
+    commands:
+      - icinga-build-package
+    # artifact: build
+    # cache: ccache
+
+  test:
+    image: '${DOCKER_IMAGE}'
+    commands:
+      - find build/
+      - icinga-build-test
+    # use artifacts
+
+  #upload:
+  #  image: registry.icinga.com/build-docker/upload
+  # environment:
+  #  UPLOAD_TARGET: stack/snapshot/$${STACK_REPO}
+  #commands:
+  #  - icinga-build-upload-aptly --target $$UPLOAD_TARGET --release $$UPLOAD_RELEASE
+  # use artifacts
+  #only:
+    #- tags
+  #  - master
